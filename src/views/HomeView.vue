@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup>
 import TheWelcome from '../components/TheWelcome.vue'
 </script>
 
 <template>
   <main>
-    <span>sasd</span>
+    <TheWelcome />
   </main>
 </template>
