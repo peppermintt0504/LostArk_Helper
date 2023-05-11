@@ -16,47 +16,53 @@
       let buff2 = ref(1);
       let debuff = ref(0);
 
+      let effect = ref(false);
+
       let firstBuffCount = ref(0);
       let secendBuffCount = ref(0);
       let deBuffCount = ref(0);
 
       function tryWork (type) {
+        if(type === 'first' && firstBuffCount.value === 10) return;
+        if(type === 'secend' && secendBuffCount.value === 10) return;
+        if(type === 'debuff' && deBuffCount.value === 10) return;
+        
+        effect.value = true;
+        setTimeout(()=>{effect.value = false;},300);
+
+        const result = parseInt(Math.random()*100);
+        let workResult = false;
+        if(result <= percentage.value){
+          percentage.value = percentage.value === 25 ? 25 :percentage.value - 10;
+          workResult = true;
+        }else{
+          percentage.value = percentage.value === 75 ? 75 :percentage.value + 10;
+        }
+
         switch (type) {
           case 'first' : {
-            if(firstBuffCount.value === 10) break;
-            const result = parseInt(Math.random()*100)
-            if(result <= percentage.value){
+            if(workResult){
               buffAct1.value[firstBuffCount.value] = 1;
-              percentage.value = percentage.value === 25 ? 25 :percentage.value - 10;
             }else{
               buffAct1.value[firstBuffCount.value] = 2;
-              percentage.value = percentage.value === 75 ? 75 :percentage.value + 10;
             }
             firstBuffCount.value++;
             break;
           }
           case 'secend' : {
-            if(secendBuffCount.value === 10) break;
-            const result = parseInt(Math.random()*100)
-            if(result <= percentage.value){
+            if(workResult){
               buffAct2.value[secendBuffCount.value] = 1;
-              percentage.value = percentage.value === 25 ? 25 :percentage.value - 10;
             }else{
               buffAct2.value[secendBuffCount.value] = 2;
-              percentage.value = percentage.value === 75 ? 75 :percentage.value + 10;
             }
             secendBuffCount.value++;
             break;
           }
           case 'debuff' : {
-            if(deBuffCount.value === 10) break;
-            const result = parseInt(Math.random()*100)
-            if(result <= percentage.value){
+            if(workResult){
               debuffAct.value[deBuffCount.value] = 1;
-              percentage.value = percentage.value === 25 ? 25 :percentage.value - 10;
             }else{
               debuffAct.value[deBuffCount.value] = 2;
-              percentage.value = percentage.value === 75 ? 75 :percentage.value + 10;
             }
             deBuffCount.value++;
             break;
@@ -103,7 +109,8 @@
         debuffAct,
         debuff,
         buff1,
-        buff2
+        buff2,
+        effect,
       }
     }
   }
@@ -146,6 +153,8 @@
         <span class="percentage">{{percentage}}</span>
         <span class="percentageEnd">%</span>
       </div>
+
+      <div class="twinkle" :style="{backgroundColor : (effect ? '#fffe8c' : '#0000'), boxShadow : (effect ? '0px 0px 15px 15px #fffe8c' : '')}"></div>
     </div>
   </div>
 </template>
@@ -155,6 +164,17 @@
 .stonePage{
   height: 100%;
   position: relative;
+}
+.twinkle{
+  position: absolute;
+  top : 255px;
+  right: 40px;
+  width: 15px;
+  height: 0px;
+  background-color: #fffe8c;
+  transition: box-shadow 0.5s,background-color 0.2s;
+  /* filter: drop-shadow(0 0 2px rgba(36, 255, 102, 0.7)) */
+  /* box-shadow: 0px 0px 15px 15px #fffe8c; */
 }
 .debuffActive{
   position: absolute;
