@@ -1,5 +1,6 @@
 <script>
   import buffList from '../enum/buff';
+  import debuffList from '../enum/debuff';
   import { ref } from 'vue';
   export default {
     props: {
@@ -12,7 +13,8 @@
       let percentage = ref(75);
 
       let buff1 = ref(0);
-      let buff2 = ref(0);
+      let buff2 = ref(1);
+      let debuff = ref(0);
 
       let firstBuffCount = ref(0);
       let secendBuffCount = ref(0);
@@ -63,7 +65,20 @@
       }
 
       function changebuff (index){
-        index === 1 ? buff1.value = (buff1.value + 1) % buffList.length : buff2.value = (buff2.value + 1) % buffList.length;
+        switch (index) {
+          case 1 : {
+            buff1.value = (buff1.value + 1) % buffList.length;
+            break;
+          }
+          case 2 : {
+            buff2.value = (buff2.value + 1) % buffList.length;
+            break;
+          }
+          case 3 : {
+            debuff.value = (debuff.value + 1) % debuffList.length;
+            break;
+          }
+        }
       }
       function getImageURL (name){
         return new URL(`../assets/image/${name}.png`, import.meta.url).href
@@ -81,10 +96,12 @@
         changebuff,
         tryWork,
         percentage,
+        debuffList,
         buffList,
         buffAct1,
         buffAct2,
         debuffAct,
+        debuff,
         buff1,
         buff2
       }
@@ -109,6 +126,8 @@
       <img class="buffFirstText" :src="getTextURL(buffList[buff1])">
       <img v-on:click="changebuff(2)" class="buffSecend" :src="getImageURL(buffList[buff2])">
       <img class="buffSecendText" :src="getTextURL(buffList[buff2])">
+      <img v-on:click="changebuff(3)" class="debuff" :src="getImageURL(debuffList[debuff])">
+      <img class="debuffText" :src="getTextURL(debuffList[debuff])">
       <img v-for="(buff,index) in buffAct1" class="buffFirstActiveStone" :style="{ left : `${109 + (40 * index)}px`,display : (buff === 0 ? 'none' : '') }" :src="activeURL(buff === 1 ? 'active' : 'fail')">
       <img v-for="(buff,index) in buffAct2" class="buffSecendActiveStone" :style="{ left : `${109 + (40 * index)}px`,display : (buff === 0 ? 'none' : '') }" :src="activeURL(buff === 1 ? 'active' : 'fail')">
       <img v-for="(buff,index) in debuffAct" class="debuffActiveStone" :style="{ left : `${109 + (40 * index)}px`,display : (buff === 0 ? 'none' : '') }" :src="activeURL(buff === 1 ? 'active' : 'fail')">
@@ -192,6 +211,16 @@
   position: absolute;
   left: 104px;
   top: 361px;
+}
+.debuff{
+  position: absolute;
+  left: 13px;
+  top: 484px;
+}
+.debuffText{
+  position: absolute;
+  left: 102px;
+  top: 488.5px;
 }
 .buffFirstActiveStone{
   position: absolute;
