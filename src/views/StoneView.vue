@@ -73,11 +73,11 @@
       function changebuff (index){
         switch (index) {
           case 1 : {
-            buff1.value = (buff1.value + 1) % buffList.length;
+            buff1.value = (buff1.value+1 === buff2.value? buff1.value + 2 : buff1.value + 1) % buffList.length;
             break;
           }
           case 2 : {
-            buff2.value = (buff2.value + 1) % buffList.length;
+            buff2.value = (buff1.value === buff2.value+1? buff2.value + 2 : buff2.value + 1) % buffList.length;
             break;
           }
           case 3 : {
@@ -87,7 +87,7 @@
         }
       }
       function getImageURL (name){
-        return new URL(`../assets/image/${name}.png`, import.meta.url).href
+        return new URL(`../assets/ability/${name}.png`, import.meta.url).href
       }
       function getTextURL (name){
         return new URL(`../assets/image/${name}_텍스트.png`, import.meta.url).href
@@ -130,11 +130,18 @@
       <div class="buffSecendActiveCount" :style="{display : (buffAct2[0] === 0 ? 'none' : '')}">{{ buffAct2.reduce((x,v)=>v === 1?x+1:x,0) }}</div>
 
       <img v-on:click="changebuff(1)" class="buffFirst" :src="getImageURL(buffList[buff1])">
-      <img class="buffFirstText" :src="getTextURL(buffList[buff1])">
+
+      <div class="buffFirstText">{{ buffList[buff1].replace(/_/g,' ') }}</div>
+
       <img v-on:click="changebuff(2)" class="buffSecend" :src="getImageURL(buffList[buff2])">
-      <img class="buffSecendText" :src="getTextURL(buffList[buff2])">
+
+      <div class="buffSecendText">{{ buffList[buff2].replace(/_/g,' ') }}</div>
+      
+
       <img v-on:click="changebuff(3)" class="debuff" :src="getImageURL(debuffList[debuff])">
-      <img class="debuffText" :src="getTextURL(debuffList[debuff])">
+
+      <div class="debuffText">{{ debuffList[debuff].replace(/_/g,' ') }}</div>
+
       <img v-for="(buff,index) in buffAct1" class="buffFirstActiveStone" :style="{ left : `${109 + (40 * index)}px`,display : (buff === 0 ? 'none' : '') }" :src="activeURL(buff === 1 ? 'active' : 'fail')">
       <img v-for="(buff,index) in buffAct2" class="buffSecendActiveStone" :style="{ left : `${109 + (40 * index)}px`,display : (buff === 0 ? 'none' : '') }" :src="activeURL(buff === 1 ? 'active' : 'fail')">
       <img v-for="(buff,index) in debuffAct" class="debuffActiveStone" :style="{ left : `${109 + (40 * index)}px`,display : (buff === 0 ? 'none' : '') }" :src="activeURL(buff === 1 ? 'active' : 'fail')">
@@ -214,33 +221,55 @@
 }
 .buffFirst{
   position: absolute;
-  left: 13px;
-  top: 262px;
+  left: 28px;
+  top: 276px;
+  width: 55px;
+  height: 55px;
 }
 .buffFirstText{
   position: absolute;
-  left: 104px;
+  left: 110px;
   top: 268px;
+  font-size: 15px;
+  color : #98c4e1;
+  filter : blur(0.5px);
+  text-shadow : 1px 1px 3px black;
+  letter-spacing: -1px;
 }
 .buffSecend{
   position: absolute;
-  left: 12px;
-  top: 356px;
+  left: 27px;
+  top: 370px;
+  width: 55px;
+  height: 55px;
 }
 .buffSecendText{
   position: absolute;
-  left: 104px;
+  left: 110px;
   top: 361px;
+  font-size: 15px;
+  color : #98c4e1;
+  filter : blur(0.5px);
+  text-shadow : 1px 1px 3px black;
+  letter-spacing: -1px;
 }
 .debuff{
   position: absolute;
-  left: 13px;
-  top: 484px;
+  left: 28px;
+  top: 497px;
+  width: 55px;
+  height: 55px;
 }
 .debuffText{
   position: absolute;
-  left: 102px;
-  top: 488.5px;
+  left: 110px;
+  top: 489px;
+  font-size: 15px;
+  color : #a03e3a;
+  filter : blur(0.5px);
+  text-shadow : 1px 1px 3px black;
+  letter-spacing: -1px;
+  font-weight: 600;
 }
 .buffFirstActiveStone{
   position: absolute;
