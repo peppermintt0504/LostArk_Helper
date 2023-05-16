@@ -86,6 +86,25 @@
           }
         }
       }
+
+      function setBuff (index,val){
+        console.log('setbuff',index,val);
+        switch (index) {
+          case 1 : {
+            buff1.value = val.target.value;
+            break;
+          }
+          case 2 : {
+            buff2.value = val.target.value;
+            break;
+          }
+          case 3 : {
+            debuff.value = val.target.value;
+            break;
+          }
+        }
+      }
+
       function getImageURL (name){
         return new URL(`../assets/ability/${name}.png`, import.meta.url).href
       }
@@ -101,6 +120,7 @@
         activeURL,
         changebuff,
         tryWork,
+        setBuff,
         percentage,
         debuffList,
         buffList,
@@ -117,7 +137,19 @@
 </script>
 
 <template>
-  <div class="pageLayout center" oncopy="return false" oncut="return false" onpaste="return false">
+  <div class="pageLayout center blackColorLayout" oncopy="return false" oncut="return false" onpaste="return false">
+    <div class="settingContainer">
+      <p>증가 능력 셋팅</p>
+      <select @change="setBuff(1,$event)"  v-model="buff1">
+        <option v-for="(buff,index) in buffList" :value="index">{{buff.replace(/_/g,' ')}} {{ buff1 }}</option>
+      </select>
+
+      <select  @change="setBuff(2,$event)" v-model="buff2">
+        <option v-for="(buff,index) in buffList" :value="index" v-if="(index !== buff1)">{{buff.replace(/_/g,' ')}}</option>
+      </select>
+
+      <p>공격력 능력 셋팅</p>
+    </div>
     <div class="stonePage">
       <img src="../assets/image/stoneScreen.png">
       <img class="debuffActive" :style="{display : (debuffAct[0] === 0 ? 'none' : '')}" src="../assets/image/감보석.png">
@@ -168,9 +200,20 @@
 
 <style>
 *{-webkit-user-drag: none;}
-.stonePage{
+.blackColorLayout{
+  background-color: #090a0b;
+  justify-content: space-evenly;
+}
+.settingContainer{
+  width: 300px;
   height: 100%;
+  border : 1px solid rgb(54, 54, 54);
+  
+}
+.stonePage{
   position: relative;
+  border : 1px solid rgb(54, 54, 54);
+  border-radius: 10px;
 }
 .twinkle{
   position: absolute;

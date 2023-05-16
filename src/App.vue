@@ -24,9 +24,16 @@ import './assets/global.css'
 <style scoped>
 
 header {
+  position: absolute;
+  z-index: 10;
+  top : 0;
+  left:  0;
   line-height: 1.5;
   height: 50px;
-  background-color: slategray;
+  display: flex;
+  width: 100vw;
+  background-color: var(--vt-c-middleWhite);
+  box-shadow: 0px -1px 5px 1px rgb(0, 0, 0);
 }
 
 main{
@@ -40,7 +47,7 @@ nav {
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  color: var(--vt-c-black-soft);
 }
 
 nav a.router-link-exact-active:hover {
@@ -58,13 +65,13 @@ nav a:first-of-type {
 }
 
 @media (min-width: 1024px) {
-  header {
+  /* header {
     position: absolute;
     top : 0;
     left:  0;
     display: flex;
     width: 100vw;
-  }
+  } */
 
   .logo {
     margin: 0 2rem 0 0;

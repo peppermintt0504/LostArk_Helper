@@ -5,8 +5,12 @@
   --vt-c-white-mute: #f2f2f2;
 
   --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
+  --vt-c-black-soft: #3a3a3a;
   --vt-c-black-mute: #282828;
+
+  --vt-c-bule: #7b9acc;
+  --vt-c-middleWhite: #FCF6F5;
+
 
   --vt-c-indigo: #2c3e50;
 
@@ -22,7 +26,7 @@
 }
 
 /* semantic color variables for this project */
-:root {
+/* :root {
   --color-background: var(--vt-c-white);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
@@ -34,20 +38,20 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
-}
+} */
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) { */
   :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
+    --color-background: var(--vt-c-bule);
+    /* --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute); */
 
     --color-border: var(--vt-c-divider-dark-2);
     --color-border-hover: var(--vt-c-divider-dark-1);
 
     --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
+    --color-text: var(--vt-c-middleWhite);
+  /* } */
 }
 
 *,
@@ -65,7 +69,7 @@ body {
   -ms-user-select:none;
   user-select:none;
   min-height: 100vh;
-  color: var(--color-text);
+  color: var(--vt-c-middleWhite);
   background: var(--color-background);
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
