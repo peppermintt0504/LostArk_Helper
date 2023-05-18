@@ -22,6 +22,18 @@
       let secendBuffCount = ref(0);
       let deBuffCount = ref(0);
 
+      function resetStone (){
+        buffAct1.value = Array(10).fill(0);
+        buffAct2.value = Array(10).fill(0);
+        debuffAct.value = Array(10).fill(0);
+
+        percentage.value = 75;
+
+        firstBuffCount.value = 0
+        secendBuffCount.value = 0
+        deBuffCount.value = 0
+      }
+
       function tryWork (type) {
         if(type === 'first' && firstBuffCount.value === 10) return;
         if(type === 'secend' && secendBuffCount.value === 10) return;
@@ -114,6 +126,7 @@
       function activeURL (active){
         return new URL(`../assets/image/${active}.png`, import.meta.url).href
       }
+      
       return {
         getImageURL,
         getTextURL,
@@ -121,6 +134,7 @@
         changebuff,
         tryWork,
         setBuff,
+        resetStone,
         percentage,
         debuffList,
         buffList,
@@ -139,16 +153,55 @@
 <template>
   <div class="pageLayout center blackColorLayout" oncopy="return false" oncut="return false" onpaste="return false">
     <div class="settingContainer">
-      <p>증가 능력 셋팅</p>
-      <select @change="setBuff(1,$event)"  v-model="buff1">
-        <option v-for="(buff,index) in buffList" :value="index">{{buff.replace(/_/g,' ')}} {{ buff1 }}</option>
-      </select>
+      <button class="resetBTN" v-on:click="resetStone()">reset</button>
+      <div class="buffSetting">
+        <p class="settingTitle">증가 능력</p>
+        <div class="buffSelectBox">
+          <p>증가 능력 1 : </p>
+          <select class="selectBox" @change="setBuff(1,$event)"  v-model="buff1">
+            <option v-for="(buff,index) in buffList" :value="index">{{buff.replace(/_/g,' ')}}</option>
+          </select>
+        </div>
+        
+        <div class="buffSelectBox">
+          <p>증가 능력 2 : </p>
+          
+          <select class="selectBox" @change="setBuff(2,$event)" v-model="buff2">
+            <option v-for="(buff,index) in buffList" :value="index" v-if="(index !== buff1)">{{buff.replace(/_/g,' ')}}</option>
+          </select>
+        </div>
+      </div>
 
-      <select  @change="setBuff(2,$event)" v-model="buff2">
-        <option v-for="(buff,index) in buffList" :value="index" v-if="(index !== buff1)">{{buff.replace(/_/g,' ')}}</option>
-      </select>
+      <div class="buffSetting">
+        <p class="settingTitle">감소 능력</p>
+        <div class="buffSelectBox">
+          <p>감소 능력 1 : </p>
+          <select class="selectBox" @change="setBuff(3,$event)"  v-model="debuff">
+            <option v-for="(debuff,index) in debuffList" :value="index">{{debuff.replace(/_/g,' ')}}</option>
+          </select>
+        </div>
+      </div>
 
-      <p>공격력 능력 셋팅</p>
+      <div class="line"></div>
+
+      <div class="buffSetting">
+        <p class="settingTitle">목표 세공치</p>
+
+        <div class="buffSelectBox">
+          <p>증가 능력 1 : </p>
+          <select class="selectBox">
+            <option v-for="(count,index) in [0,1,2,3,4,5,6,7,8,9,10]" :value="count">{{count}}</option>
+          </select>
+        </div>
+        
+        <div class="buffSelectBox">
+          <p>증가 능력 2 : </p>
+          
+          <select class="selectBox">
+            <option v-for="(count,index) in [0,1,2,3,4,5,6,7,8,9,10]" :value="count">{{count}}</option>
+          </select>
+        </div>
+      </div>      
     </div>
     <div class="stonePage">
       <img src="../assets/image/stoneScreen.png">
@@ -208,7 +261,39 @@
   width: 300px;
   height: 100%;
   border : 1px solid rgb(54, 54, 54);
-  
+  border-radius: 5px;
+}
+.line{
+  min-width: 80%;
+  margin : 10px 10px;
+  min-height: 1px;
+  border-bottom: 1px solid gray;
+}
+.resetBTN{
+  position: absolute;
+  right: 20px;
+  top : 25px;
+}
+.buffSetting{
+  margin : 20px 15px;
+}
+.selectBox{
+  height: 30px;
+  width : 170px;
+  border-radius: 7px;
+}
+.buffSelectBox{
+  margin-top: 10px;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  gap : 10px;
+  align-items: center;
+}
+.settingTitle{
+  font-size: 20px;
+  font-weight: 700;
 }
 .stonePage{
   position: relative;
@@ -218,7 +303,7 @@
 .twinkle{
   position: absolute;
   top : 255px;
-  right: 40px;
+  right: 35px;
   width: 15px;
   height: 0px;
   background-color: #fffe8c;
@@ -337,6 +422,14 @@
   width: 92px;
   height: 65px;
 }
+.firstButton:hover{
+  background-color: black;
+  opacity: 0.2;
+}
+.firstButton:active{
+  background-color: black;
+  opacity: 0.4;
+}
 .secendButton{
   position: absolute;
   right: 26px;
@@ -345,6 +438,14 @@
   width: 92px;
   height: 65px;
 }
+.secendButton:hover{
+  background-color: black;
+  opacity: 0.2;
+}
+.secendButton:active{
+  background-color: black;
+  opacity: 0.4;
+}
 .debufButton{
   position: absolute;
   right: 26px;
@@ -352,6 +453,14 @@
   opacity: 0.3;
   width: 92px;
   height: 65px;
+}
+.debufButton:hover{
+  background-color: black;
+  opacity: 0.2;
+}
+.debufButton:active{
+  background-color: black;
+  opacity: 0.4;
 }
 .buffFirstpercentage{
   position: absolute;
